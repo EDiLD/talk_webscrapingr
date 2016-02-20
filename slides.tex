@@ -1,0 +1,148 @@
+% -*- program: xelatex -*-
+
+\documentclass[12pt, t]{beamer}
+%%% ------------------------------------------------------------------------
+% packages
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning, shapes, backgrounds}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{adjustbox}
+% conditional (for figures)
+\usepackage{etoolbox}
+
+\usepackage{fontspec}
+\usepackage{fontawesome}
+
+\usepackage{subcaption} % side-by-side figures
+\usepackage{hyperref}
+
+
+
+%%% ------------------------------------------------------------------------
+% Theming (dark or white)
+\usetheme{default}
+\useoutertheme[subsection=false]{miniframes}
+
+% move navigation to footer
+\setbeamertemplate{headline}{}
+\makeatletter
+\setbeamertemplate{footline}
+  {%
+  \begin{beamercolorbox}{section in head/foot}
+    \vskip2pt\insertnavigation{\paperwidth}\vskip5pt
+  \end{beamercolorbox}%
+  }
+\makeatother
+
+
+% no navigation bar
+\beamertemplatenavigationsymbolsempty
+
+% switch between white and black
+\newtoggle{dark}
+\toggletrue{dark}
+% \togglefalse{dark}
+
+\iftoggle{dark}{%
+    % some colors
+    \definecolor{foreground}{RGB}{255,255,255}
+    \definecolor{background}{RGB}{24,24,24}
+    \definecolor{title}{RGB}{127,185,220}
+    \definecolor{gray}{RGB}{116,116,116}
+    \definecolor{hilight}{RGB}{250, 108, 0}
+    \setbeamercolor{section in head/foot}{fg = title}
+    % set colors for titles, etc.
+    \setbeamercolor{titlelike}{fg=title}
+    \setbeamercolor{subtitle}{fg=title}
+    \setbeamercolor{institute}{fg=gray}
+    \setbeamercolor{normal text}{fg=foreground,bg=background}
+    % % set colors for itemize
+    \setbeamercolor{item}{fg=title} % color of bullets
+    \setbeamercolor{subitem}{fg=gray}
+    \setbeamercolor{itemize/enumerate subbody}{fg=gray}
+}{
+    % some colors
+    \definecolor{foreground}{RGB}{0, 0, 0}
+    \definecolor{background}{RGB}{255,255,255}
+    \definecolor{title}{RGB}{107,174,214}
+    \definecolor{gray}{RGB}{116,116,116}
+    \definecolor{hilight}{RGB}{228, 97, 0}
+    \setbeamercolor{section in head/foot}{fg = title}
+    % set colors
+    \setbeamercolor{titlelike}{fg=title}
+    \setbeamercolor{subtitle}{fg=title}
+    \setbeamercolor{institute}{fg=gray}
+    \setbeamercolor{normal text}{fg=foreground,bg=background}
+    % set colors for itemize
+    \setbeamercolor{item}{fg=foreground} % color of bullets
+    \setbeamercolor{subitem}{fg=gray}
+    \setbeamercolor{itemize/enumerate subbody}{fg=gray}
+}
+
+
+%%% ------------------------------------------------------------------------
+% Meta
+\title{Web Scraping with R}   
+\author{Eduard Szöcs} 
+\institute{Institute for Environmental Sciences, University of Koblenz-Landau} 
+\date{Landau, 25.02.2016}
+
+
+
+%%% ------------------------------------------------------------------------
+% Title page
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+%%% ------------------------------------------------------------------------
+% Intro
+\section{About me} 
+\subsection{}
+\begin{frame}
+\frametitle{About me}
+\center
+\includegraphics[width =.8\textwidth]{fig/wordcloud_abstracts_firstauthor.png} \\   
+\mbox{... Eco(toxico-)logy, Statistics and Programming}
+\end{frame}
+
+
+
+\section{Stuff}
+\subsection{}
+\begin{frame}
+\frametitle{I - Title}
+\
+\end{frame}
+
+
+\section{Other stuff}
+\subsection{}
+\begin{frame}
+\frametitle{II - Title}
+\end{frame}
+
+
+%%% Last slide ----------------------------------------------------
+\begin{frame}
+    \frametitle{}
+    \vspace{1em}
+    \begin{centering}
+    \Large \textcolor{title}{Web Scraping with R} \\[1em]
+        Eduard Szöcs \\[0.3em]
+    \tiny \textcolor{gray}{Institute for Environmental Sciences, University of Koblenz-Landau} \\[5em]
+    \end{centering}
+    \normalsize
+    \textcolor{hilight}{\faLaptop}~~~\href{http://edild.github.io/}{http://edild.github.io/ }\\[.5em]
+    \textcolor{hilight}{\faTwitter}~~~\href{http://twitter.com/EduardSzoecs}{@EduardSzoecs}     \\[0.5em]
+    \textcolor{hilight}{\faGift}~~~\href{https://github.com/edild/talk_webscraping}{https://github.com/edild/talk\_work}\\[0.5em]
+    \textcolor{hilight}{\faEnvelope}~~~\href{mailto:szoecs@uni-landau.de}{szoecs@uni-landau.de} \\[.5em]
+    \hfill \includegraphics[width =.3\textwidth]{fig/Cc-by-nc_euro_icon.png} 
+\end{frame}
+
+
+\end{document}
