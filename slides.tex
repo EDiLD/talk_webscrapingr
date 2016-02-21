@@ -10,6 +10,8 @@
 \usepackage{adjustbox}
 % conditional (for figures)
 \usepackage{etoolbox}
+% \usepackage{listings}
+\usepackage{minted}
 
 \usepackage{fontspec}
 \usepackage{fontawesome}
@@ -81,6 +83,9 @@
 }
 
 
+%%% -----------------------------------------------------------------------
+
+
 %%% ------------------------------------------------------------------------
 % Meta
 \title{Web Scraping with R}   
@@ -105,26 +110,173 @@
 \subsection{}
 \begin{frame}
 \frametitle{About me}
-\center
-\includegraphics[width =.8\textwidth]{fig/wordcloud_abstracts_firstauthor.png} \\   
-\mbox{... Eco(toxico-)logy, Statistics and Programming}
+\begin{itemize}
+\item Phd-Student @Uni Koblenz-Landau
+	\begin{itemize}
+	\item Environmental monitoring data
+	\end{itemize}
+\item Freelance R Consultant
+	\begin{itemize}
+		\item R Courses
+		\item Data sourcing, cleaning \& analysis
+	\end{itemize}
+\end{itemize}
+\pause
+\vspace{2em}
+R packages:
+\begin{description}
+	\item[\href{https://github.com/ropensci/taxize}{taxize}]{Taxonomic Information from Around the Web}
+	\item[\href{https://github.com/ropensci/webchem}{webchem}]{Chemical Information from the Web}
+\end{description}
+\begin{centering}
+\colorbox{white}{\includegraphics[width =.3\textwidth]{fig/ropensci.png}}
+\end{centering}
 \end{frame}
 
 
-
-\section{Stuff}
+\section{Tools}
 \subsection{}
 \begin{frame}
-\frametitle{I - Title}
-\
+\frametitle{I - Packages (selected)}
+\begin{description}
+\item[\textcolor{hilight}{xml2}]{Parsing XML \& HTML}	
+\item[\textcolor{hilight}{rvest}]{parse common html structures (e.g. tables)}
+\item[\textcolor{hilight}{xmlview}]{View pretty HTML/XML, explore XPaths}
+\item[httr*]{Working with APIs / http protocol}
+\item[jsonlite*]{Parse JSON}
+\end{description}
+\pause
+\includegraphics[width=.3\textwidth]{fig/adcr-cover-wiley4.jpg} \\
+\tiny
+* I won't cover APIs here.
 \end{frame}
 
 
-\section{Other stuff}
+\section{structured webpages}
+\subsection{}
+\begin{frame}[fragile]
+\frametitle{II - Scraping structured web-pages}
+What is structured?
+\begin{minted}[fontsize=\tiny]{html}
+<table class="wikitable">
+  <tbody>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Age</th>
+    </tr>
+    <tr>
+      <td>Tinu</td>
+      <td>Elejogun</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>Blaszczyk</td>
+      <td>Kostrzewski</td>
+      <td>25</td>
+    </tr>
+    [...]
+  </tbody>
+</table>
+\end{minted}
+2D representation of data -> data.frame
+\end{frame}
+
+
+\begin{frame}
+\frametitle{II - Demo}
+Extract election results from wikipedia \\
+\tiny
+\url{https://de.wikipedia.org/wiki/Landtagswahlen_in_Rheinland-Pfalz}
+
+\vspace{1em}
+\begin{adjustbox}{max totalsize={.9\textwidth}{.7\textheight},center}
+\begin{tikzpicture}[node distance = 1cm, auto]
+\tikzstyle{block} = [rectangle, draw, fill=title, text = black,
+    text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, thick, -latex']
+    % Place nodes
+    \node [block] (source) {Look at the source};
+    \node [block, right=of source] (download) {download \\ xml2::read\_html()};
+    \node [block, right=of download] (parse) {parse \\ rvest::html\_table()};
+    \node [block, right=of parse] (clean) {clean / use};
+
+%paths
+    \path [line] (source) -- (download);
+    \path [line] (download) -- (parse);
+    \path [line] (parse) -- (clean);
+
+\end{tikzpicture}
+\end{adjustbox}
+\vspace{2em}
+
+\includegraphics[width=0.7\textwidth]{fig/p1.pdf}
+\end{frame}
+
+
+\section{unstructured webpages}
+\subsection{}
+\begin{frame}[fragile]
+\frametitle{III - Scraping unstructured web-pages}
+\begin{itemize}
+	\item Not all data is stored in <table>
+	\item scattered on the web page
+	\item Need to find and extract the parts we need.
+\end{itemize}
+
+	\begin{minted}[fontsize=\tiny]{html}
+	<h1 id="Top">Formaldehyde</h1>
+	<ul>
+	<li>
+	<strong>
+	<a class="external" href="http://goldbook.iupac.org/R05271.html" title="IUPAC definition of relative molecular mass (molecular weight)">Molecular weight</a>
+	:
+	</strong>
+	30.0260
+	</li>
+	<li>
+	<strong>IUPAC Standard InChIKey:</strong>
+	<span style="font-family: monospace;">WSFSSNUMVMOOMR-UHFFFAOYSA-N</span>
+	</li>
+	<li>
+	<strong>CAS Registry Number:</strong>
+	50-00-0
+	</li>
+	\end{minted}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{III - XPath}
+XML Path Language (XPath) is a query language for selecting nodes
+
+\end{frame}
+
+
+
+
+\section{Lessons learned}
 \subsection{}
 \begin{frame}
-\frametitle{II - Title}
+\frametitle{IV - Remarks}
+\begin{itemize}
+	\item scraping is easy.
+	\item being user-friendly is \textcolor{hilight}{not}.
+	\item be nice to the servers!
+	\begin{itemize}
+		\item scrape slowly, time-outs
+		\item Sys.sleep(rgamma(1, shape = 30, scale = 1/10))
+	\end{itemize}
+	\item illegal?
+	\begin{itemize}
+		\item even slower
+		\item anonymous EC2
+		\item TOR
+	\end{itemize}
+\end{itemize}
+
 \end{frame}
+
 
 
 %%% Last slide ----------------------------------------------------
