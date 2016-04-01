@@ -51,7 +51,7 @@
     \definecolor{foreground}{RGB}{255,255,255}
     \definecolor{background}{RGB}{24,24,24}
     \definecolor{title}{RGB}{127,185,220}
-    \definecolor{gray}{RGB}{116,116,116}
+    \definecolor{gray}{RGB}{154,154,154}
     \definecolor{hilight}{RGB}{250, 108, 0}
     \setbeamercolor{section in head/foot}{fg = title}
     % set colors for titles, etc.
@@ -90,39 +90,45 @@
 % Meta
 \title{Web Scraping with R}   
 \author{Eduard Szöcs} 
-\institute{Institute for Environmental Sciences, University of Koblenz-Landau} 
-\date{Landau, 25.02.2016}
+\institute{Institute for Environmental Sciences, UnVersity of Koblenz-Landau} 
+\date{Landau, 07.04.2016}
 
 
 
 %%% ------------------------------------------------------------------------
 % Title page
+
 \begin{document}
 
 \begin{frame}
+\vspace*{1.5cm}
 \titlepage
+\vspace*{1.5cm}
+\textcolor{hilight}{\faGift}~~~\textcolor{title}{\href{https://github.com/edild/talk_webscrapingr}{https://github.com/edild/talk\_webscrapingr}}
+
 \end{frame}
 
 
 %%% ------------------------------------------------------------------------
 % Intro
-\section{About me} 
+\section{I - About} 
 \subsection{}
 \begin{frame}
 \frametitle{About me}
 \begin{itemize}
 \item Phd-Student @Uni Koblenz-Landau
 	\begin{itemize}
-	\item Environmental monitoring data
+	  \item Environmental data
 	\end{itemize}
-\item Freelance R Consultant
+\item Freelance (R) Consultant
 	\begin{itemize}
-		\item R Courses
 		\item Data sourcing, cleaning \& analysis
+		\item Chemoinformatics
+		\item R Courses
 	\end{itemize}
 \end{itemize}
 \pause
-\vspace{2em}
+\vspace{1.5em}
 R packages:
 \begin{description}
 	\item[\href{https://github.com/ropensci/taxize}{taxize}]{Taxonomic Information from Around the Web}
@@ -134,12 +140,27 @@ R packages:
 \end{frame}
 
 
-\section{Tools}
+\begin{frame}[c]
+\frametitle{I What is web scraping?}
+\begin{center}
+\Huge
+\textbf{Getting data from the internet} \\ \pause
+\normalsize
+\vspace{0.5em}
+(in a structured automated way)
+\end{center}
+\end{frame}
+
+
+
+%%% ------------------------------------------------------------------------
+% Tools
+\section{II - Tools}
 \subsection{}
 \begin{frame}
-\frametitle{I - Packages (selected)}
+\frametitle{II - R Packages for web scraping (selected)}
 \begin{description}
-\item[\textcolor{hilight}{xml2}]{Parsing XML \& HTML}	
+\item[\textcolor{hilight}{xml2}]{Parsing HTML \& XML}	
 \item[\textcolor{hilight}{rvest}]{parse common html structures (e.g. tables)}
 \item[\textcolor{hilight}{xmlview}]{View pretty HTML/XML, explore XPaths}
 \item[httr*]{Working with APIs / http protocol}
@@ -152,11 +173,14 @@ R packages:
 \end{frame}
 
 
-\section{structured webpages}
+%%% ------------------------------------------------------------------------
+% Structured data
+\section{III - Structured data}
 \subsection{}
 \begin{frame}[fragile]
-\frametitle{II - Scraping structured web-pages}
-What is structured?
+\frametitle{III - Scraping structured web-pages}
+What is structured data?
+\vspace{1em}
 \begin{minted}[fontsize=\tiny]{html}
 <table class="wikitable">
   <tbody>
@@ -184,7 +208,7 @@ What is structured?
 
 
 \begin{frame}
-\frametitle{II - Demo}
+\frametitle{III - Demo}
 Extract election results from wikipedia \\
 \tiny
 \url{https://de.wikipedia.org/wiki/Landtagswahlen_in_Rheinland-Pfalz}
@@ -209,27 +233,32 @@ Extract election results from wikipedia \\
 \end{tikzpicture}
 \end{adjustbox}
 \vspace{2em}
-
+\pause
 \includegraphics[width=0.7\textwidth]{fig/p1.pdf}
 \end{frame}
 
 
-\section{unstructured webpages}
+%%% ------------------------------------------------------------------------
+% Unstructured data
+\section{IV - Unstructured data}
 \subsection{}
 \begin{frame}[fragile]
-\frametitle{III - Scraping unstructured web-pages}
+\frametitle{IV - Scraping unstructured web-pages}
 \begin{itemize}
 	\item Not all data is stored in <table>
 	\item scattered on the web page
 	\item Need to find and extract the parts we need.
 \end{itemize}
 
+\tiny
+\url{http://webbook.nist.gov/cgi/cbook.cgi?ID=50-00-0&Units=SI}
+
 	\begin{minted}[fontsize=\tiny]{html}
 	<h1 id="Top">Formaldehyde</h1>
 	<ul>
 	<li>
 	<strong>
-	<a class="external" href="http://goldbook.iupac.org/R05271.html" title="IUPAC definition of relative molecular mass (molecular weight)">Molecular weight</a>
+	<a title="IUPAC definition of relatVe molecular mass (molecular weight)">Molecular weight</a>
 	:
 	</strong>
 	30.0260
@@ -247,34 +276,172 @@ Extract election results from wikipedia \\
 
 
 \begin{frame}[fragile]
-\frametitle{III - XPath}
-XML Path Language (XPath) is a query language for selecting nodes
+\frametitle{IV - XPath}
+\begin{itemize}
+  \item XPath is a query language for selecting parts (nodes).
+\end{itemize}
+
+\begin{description}
+  \item[\textbackslash\textbackslash a]{Select all a elements (links)}
+  \item[\textbackslash\textbackslash li\textbackslash a]{Select all links within li}
+  \item[\textbackslash\textbackslash li\textbackslash a[3]]{Select third link within li}
+\end{description}
+
+
+\begin{itemize}
+  \item Inspectors can export paths (fragile)
+  \item Build \textcolor{hilight}{robust} Xpaths
+  \item \url{http://www.w3schools.com/xsl/xpath_intro.asp}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{IV - RegEx}
+Regular Expressions
+
+\begin{itemize}
+  \item For residual cleaning of characters
+  \item E.g. Split Value and Unit
+  \item gsub() \& Co
+  \item \url{http://www.regular-expressions.info}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{IV - Demo}
+Extract Inchikeys from \url{webbook.nist.gov}\\
+
+\vspace{1em}
+\begin{adjustbox}{max totalsize={.9\textwidth}{.7\textheight},center}
+\begin{tikzpicture}[node distance = 1cm, auto]
+\tikzstyle{block} = [rectangle, draw, fill=title, text = black,
+    text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, thick, -latex']
+    % Place nodes
+    \node [block] (source) {Look at the source / Identify parts};
+    \node [block, right=of source] (download) {download \\ xml2::read\_html()};
+    \node [block, right=of download] (parse) {XPath \\ xml2::xml\_find\_all()};
+    \node [block, right=of parse] (clean) {clean};
+
+%paths
+    \path [line] (source) -- (download);
+    \path [line] (download) -- (parse);
+    \path [line] (parse) -- (clean);
+
+\end{tikzpicture}
+\end{adjustbox}
+
+
+\vspace{1em}
+\begin{adjustbox}{max totalsize={.9\textwidth}{.7\textheight},center}
+\begin{tikzpicture}[node distance = 1cm, auto]
+\tikzstyle{block} = [rectangle, draw, fill=hilight, text = black,
+    text width=10em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, thick, -latex']
+    % Place nodes
+    \node [block] (source) {CAS : 50-00-0};
+    \node [block, right=of source] (download) {WSFSSNUMVMOOMR-UHFFFAOYSA-N};
+
+%paths
+    \path [line] (source) -- (download);
+
+\end{tikzpicture}
+\end{adjustbox}
 
 \end{frame}
 
 
-
-
-\section{Lessons learned}
+%%% ------------------------------------------------------------------------
+% Automatisation
+\section{V - Automatisation}
 \subsection{}
-\begin{frame}
-\frametitle{IV - Remarks}
-\begin{itemize}
-	\item scraping is easy.
-	\item being user-friendly is \textcolor{hilight}{not}.
-	\item be nice to the servers!
-	\begin{itemize}
-		\item scrape slowly, time-outs
-		\item Sys.sleep(rgamma(1, shape = 30, scale = 1/10))
-	\end{itemize}
-	\item illegal?
-	\begin{itemize}
-		\item even slower
-		\item anonymous EC2
-		\item TOR
-	\end{itemize}
-\end{itemize}
 
+\begin{frame}
+  \frametitle{V - Automatisation}
+  
+  \begin{itemize}
+    \item Wrap into function (Input = URL)
+    \item Function should return vector or list
+    \item Build URLs
+    \item Iterate with l/sapply
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{V - Demo Automatisation}
+  \begin{adjustbox}{max totalsize={.9\textwidth}{.7\textheight},center}
+  \begin{tikzpicture}[node distance = 1cm, auto]
+  \tikzstyle{block} = [rectangle, draw, fill=title, text = black,
+      text width=8em, text centered, rounded corners, minimum height=4em]
+  \tikzstyle{line} = [draw, thick, -latex']
+      % Place nodes
+      \node [block] (source) {Input};
+      \node [block, right=of source] (download) {Build URL};
+      \node [block, right=of download] (parse) {Apply Function to URL};
+      \node [block, right=of parse] (clean) {Combine};
+  
+  %paths
+      \path [line] (source) -- (download);
+      \path [line] (download) -- (parse);
+      \path [line] (parse) -- (clean);
+  
+  \end{tikzpicture}
+  \end{adjustbox}
+  
+\vspace{1em}
+\begin{table}[htbp]
+\footnotesize
+\begin{tabular}{llr}
+CAS & inchikey & \multicolumn{1}{l}{mw} \\ \hline
+50-00-0 & WSFSSNUMVMOOMR-UHFFFAOYSA-N & 30.026 \\ 
+126-86-3 & LXOFYPKXCSULTL-UHFFFAOYSA-N & 226.355 \\ 
+28159-98-0 & HDHLIWCXDDZUFH-UHFFFAOYSA-N & 253.367 \\ 
+1461-25-2 & AFCAKJKUYFLYFK-UHFFFAOYSA-N & 347.167 \\ 
+120-18-3 &  & \multicolumn{1}{l}{} \\ 
+25637-99-4 &  & \multicolumn{1}{l}{} \\ \hline
+\end{tabular}
+\label{}
+\end{table}
+
+\end{frame}
+
+
+%%% ------------------------------------------------------------------------
+% Conclusions
+\section{VI - Conclusions}
+\subsection{}
+
+\begin{frame}
+  \frametitle{VI - Remarks}
+  \begin{itemize}
+  	\item Error handling?
+  	\item Robustness? (e.g. Change in website)
+  	\item APIs! (functions provided by servers to query data)
+  	\item ROpenSci (e.g. \href{https://github.com/ropensci/webchem}{webchem}) provides good functionalities
+  	\item \url{forum.r-statistik.de}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{VI - Lessons learned}
+  \begin{itemize}
+  	\item scraping is easy.
+  	\item being user-friendly is \textcolor{hilight}{not}.
+  	\item be nice to the servers!
+  	\begin{itemize}
+  		\item scrape slowly, time-outs
+  		\item Sys.sleep(rgamma(1, shape = 30, scale = 1/10))
+  	\end{itemize}
+  	\item legal?
+  	\begin{itemize}
+  		\item even slower
+  		\item anonymous EC2
+  		\item TOR
+  	\end{itemize}
+  \end{itemize}
 \end{frame}
 
 
@@ -287,7 +454,7 @@ XML Path Language (XPath) is a query language for selecting nodes
     \begin{centering}
     \Large \textcolor{title}{Web Scraping with R} \\[1em]
         Eduard Szöcs \\[0.3em]
-    \tiny \textcolor{gray}{Institute for Environmental Sciences, University of Koblenz-Landau} \\[5em]
+    \tiny \textcolor{gray}{Institute for Environmental Sciences, UnVersity of Koblenz-Landau} \\[5em]
     \end{centering}
     \normalsize
     \textcolor{hilight}{\faLaptop}~~~\href{http://edild.github.io/}{http://edild.github.io/ }\\[.5em]

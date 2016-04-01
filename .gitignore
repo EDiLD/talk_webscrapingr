@@ -10,3 +10,14 @@
 *.synctex.gz
 *.toc
 *.vrb
+.Rproj.user
+
+# sublime
+*.sublime-workspace
+
+# Rstudio
+*.Rproj
+
+# gitignore
+.gitignore
+README.html
